@@ -8,13 +8,19 @@ enum {
   Attack
 }
 
+
 var velocity = Vector2.ZERO
 var state = Move
 var roll_vector = Vector2.DOWN
+var PlayerHurtSound: PackedScene = preload("res://Scenes/PlayerHurtSound.tscn")
+var stats = PlayerStats
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var animation_tree: AnimationTree = $AnimationTree
 onready var animation_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
+onready var hurtbox = $HurtBox
+onready var blink_animation_player: AnimationPlayer = $BlinkAniamtionPlayer
+
 
 export (int) var MAX_SPEED = 80
 export (int) var ACCELERATION = 500
@@ -23,7 +29,16 @@ export (int) var FRINCTION = 500
 
 
 func _ready():
+  stats.connect("no_health", self, "queue_free")
+  hurtbox.connect("area_entered", self, "_on_HurtBox_area_entered")
   animation_tree.active = true
+
+func  _on_HurtBox_area_entered(_area: Area2D):
+  print("hurt")
+  stats.health -= 1
+  hurtbox.start_inbincibility(0.5)
+  var player_hurt_sound = PlayerHurtSound.instance()
+  get_tree().current_scene.add_child(player_hurt_sound)
 
 
 func move_state(delta):
@@ -79,3 +94,9 @@ func _physics_process(delta):
       roll_state(delta)
     Attack:
       attack_state(delta)
+
+func _on_HurtBox_invincibility_stated():
+  blink_animation_player.play("Start")
+
+func _on_HurtBox_invincibility_ended():
+  blink_animation_player.play("Stop")

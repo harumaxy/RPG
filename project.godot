@@ -15,9 +15,24 @@ _global_script_classes=[ {
 "path": "res://Scripts/HitBox.gd"
 }, {
 "base": "Area2D",
+"class": "HurtBox",
+"language": "GDScript",
+"path": "res://Scripts/HurtBox.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Scripts/Player.gd"
+}, {
+"base": "Area2D",
 "class": "PlayerDetectionZone",
 "language": "GDScript",
 "path": "res://Scripts/PlayerDetectionZone.gd"
+}, {
+"base": "Area2D",
+"class": "SoftCollision",
+"language": "GDScript",
+"path": "res://Scripts/SoftCollision.gd"
 }, {
 "base": "Node",
 "class": "Stats",
@@ -28,12 +43,21 @@ _global_script_classes=[ {
 "class": "SwordHitBox",
 "language": "GDScript",
 "path": "res://Scripts/SwordHitBox.gd"
+}, {
+"base": "Node2D",
+"class": "WanderController",
+"language": "GDScript",
+"path": "res://Scripts/WanderController.gd"
 } ]
 _global_script_class_icons={
 "Hitbox": "",
+"HurtBox": "",
+"Player": "",
 "PlayerDetectionZone": "",
+"SoftCollision": "",
 "Stats": "",
-"SwordHitBox": ""
+"SwordHitBox": "",
+"WanderController": ""
 }
 
 [application]
@@ -41,6 +65,10 @@ _global_script_class_icons={
 config/name="RPG"
 run/main_scene="res://Scenes/World.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+PlayerStats="*res://Scripts/PlayerStats.gd"
 
 [display]
 
@@ -124,6 +152,7 @@ roll={
 2d_physics/layer_3="PlayerHurtbox"
 2d_physics/layer_4="EnemyHurtbox"
 2d_physics/layer_5="Enemy"
+2d_physics/layer_6="SoftCollisions"
 
 [rendering]
 
